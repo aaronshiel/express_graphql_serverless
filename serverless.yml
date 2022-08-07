@@ -1,0 +1,26 @@
+# serverless.yml
+
+service: express-server
+provider:
+  name: aws
+  runtime: nodejs14.x
+  environment:
+    MONGO_URI: ${ssm:/production/mongo_uri, ''}
+    LOGGLY_TOKEN: ${ssm:/production/loggly_token, ''}
+    GQL_SECRET: ${ssm:/production/gql_secret, ''}
+
+plugins:
+  - serverless-plugin-typescript
+
+functions:
+  graphql:
+    handler: lambda.handler
+    events:
+    - http: 
+        path: /
+        method: GET
+        cors: true
+    - http: 
+        path: /{proxy+}
+        method: ANY
+        cors: true
