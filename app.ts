@@ -12,9 +12,11 @@ app.use(express.json());
 //START MIDDLEWARE
 import mongoose from 'mongoose'
 import { verifyQueryPayload } from './helpers';
+import privateSchema from './schemas/privateSchema';
 const mongoUrl = `${process.env.ENV === "dev" ? "mongodb://localhost:27017/TestDB" : process.env.MONGO_URI}`
 
 var connectWithRetry = function() {
+  console.log(`connecting to uri: ${mongoUrl}`)
     return mongoose.connect(mongoUrl, function(err) {
       if (err) {
         console.error('Failed to connect to mongo on startup - retrying in 30 sec', err);
@@ -32,6 +34,7 @@ mongoose.connection.on('error', err => {
 mongoose.connection.once('open', () => {
     console.log('connected to database');
 });
+
 // @ts-ignore
 const authorization = (req, res, next) => {
     if(process.env.ENV ==="dev"){
@@ -64,10 +67,10 @@ const verifyQuery = (req, res, next) =>{
   return next();
 }
 
-// app.use('/graphql', authorization, graphqlHTTP({
-//     privateSchema, // private due to authorization
-//     graphiql: true
-// }));
+app.use('/graphql', authorization, graphqlHTTP({
+    schema: privateSchema, // private due to authorization
+    graphiql: true
+}));
 
 // Public since no authorization
 app.use('/graphqlClient', graphqlHTTP({

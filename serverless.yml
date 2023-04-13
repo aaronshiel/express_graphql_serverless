@@ -6,7 +6,6 @@ provider:
   runtime: nodejs14.x
   environment:
     MONGO_URI: ${ssm:/production/mongo_uri, ''}
-    LOGGLY_TOKEN: ${ssm:/production/loggly_token, ''}
     GQL_SECRET: ${ssm:/production/gql_secret, ''}
 
 plugins:
@@ -23,4 +22,7 @@ functions:
     - http: 
         path: /{proxy+}
         method: ANY
-        cors: true
+        cors: 
+          origins:
+            - 'http://172.29.60.32:3000'
+            - 'http://172.29.60.32:3000/'

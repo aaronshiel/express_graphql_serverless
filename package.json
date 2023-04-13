@@ -1,15 +1,15 @@
 {
   "dependencies": {
+    "@jupyterlab/nbformat": "^3.6.3",
     "@vendia/serverless-express": "^4.10.1",
+    "@xapi/cmi5": "^1.1.6",
     "ajv": "^8.11.0",
     "aws-lambda": "^1.0.7",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-graphql": "^0.12.0",
     "mongoose": "^6.5.1",
-    "source-map-support": "^0.5.21",
-    "winston": "^3.8.1",
-    "winston-loggly-bulk": "^3.2.1"
+    "source-map-support": "^0.5.21"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
